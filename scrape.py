@@ -4,7 +4,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import time
 import click
-
+import analysis
 #@click.command()
 #@click.option('--interval', default=30, help='Interval between scraping')
 #@click.option('--iterations', default=None, help='Number of Interations')
@@ -31,8 +31,8 @@ def extract_name(soup):
     return name
     
     
-def url():
-    df_amazon=pd.DataFrame(columns=["Company","DateTime","Price"])
+def url(df_amazon):
+    
 
     url='https://markets.businessinsider.com/stocks/amzn-stock'
     html=urlopen(url)
@@ -41,26 +41,18 @@ def url():
     price=extract_price(soup)
     name=extract_name(soup)
     #Extract CompanyName
-   
-    new_data=[name,str(time.ctime()),price]
-    #return new_data      
+    if len(df_amazon)<5:
+        new_data=[name,str(time.ctime()),price,0]
+    #return new_data
+    else:
+        ma=analysis.moving_average(df_amazon)
+        new_data=[name,str(time.ctime()),price,ma]
+        
     df_amazon.loc[len(df_amazon)] = new_data
+    print("DATASET")
+    print(df_amazon)
     #df_amazon.append(new_data)
     return df_amazon
 
 
-'''
-def start(interations,interval):
-    click.echo("IN")
-   
-    if iterations is None:
-        while(True):
-            u=url(df_amazon)
-            print(u)
-            time.sleep(int(interval))
-    else:
-        for i in range(0,int(iterations)):
-            u=url(df_amazon)
-            print(u)
-            time.sleep(int(interval))
-'''
+
