@@ -16,16 +16,17 @@ import analysis
 
 def start1(iterations,interval):
     #click.echo("HELLO")
-    df_amazon=pd.DataFrame(columns=["Company","DateTime","Price","Moving Average"])
+    df=pd.DataFrame(columns=["Dow-Jones","Company","DateTime","Price","Moving Average"])
+    dj=[]
+    #nasdaq=[]
+    #sp=[]
 
     for i in range(0,int(iterations)):
-        u=scrape.url(df_amazon)
-        #print(u)
-        #
-            
+        u=scrape.url(df,dj)
+        print(u)
         time.sleep(int(interval))
     
-    output_file=df_amazon.to_csv('Stock.csv')
+    output_file=df.to_csv('Stock.csv')
     
 if __name__ == "__main__":
     start1()

@@ -10,6 +10,19 @@ import analysis
 #@click.option('--iterations', default=None, help='Number of Interations')
 
 
+def extract_dj():
+    dj_url='https://markets.businessinsider.com/index/dow_jones'
+    dj_html=urlopen(dj_url)
+    dj_soup= BeautifulSoup(dj_html,'lxml')
+    dj_span=dj_soup.find("div", {"class" : "price-section__values"}).find("span", {"class" : "price-section__current-value"})
+    if dj_span.text.find(',')!=-1:
+        djprice=float(dj_span.text.replace(',',''))
+        #djprice=float(djr)
+    else:
+        djprice=float(dj_span.text)
+    
+    return djprice
+
 def extract_price(soup):
     #Extract Price
     results = soup.find("div", {"class" : "price-section__values"})
@@ -31,7 +44,7 @@ def extract_name(soup):
     return name
     
     
-def url(df_amazon):
+def url(df_amazon,dj):
     
 
     url='https://markets.businessinsider.com/stocks/amzn-stock'
@@ -40,17 +53,24 @@ def url(df_amazon):
     #print(soup)
     price=extract_price(soup)
     name=extract_name(soup)
-    #Extract CompanyName
+    dp=extract_dj()
+    dj_price=analysis.dowjones(dp,dj)
+    print("DOW JONES", str(dj))
+    
+    
     if len(df_amazon)<5:
-        new_data=[name,str(time.ctime()),price,0]
+        new_data=[dj_price,name,str(time.ctime()),price,0]
     #return new_data
     else:
         ma=analysis.moving_average(df_amazon)
-        new_data=[name,str(time.ctime()),price,ma]
-        
+        new_data=[dj_price,name,str(time.ctime()),price,ma]
+    
+    
+    
+    
     df_amazon.loc[len(df_amazon)] = new_data
-    print("DATASET")
-    print(df_amazon)
+    #print("DATASET")
+    #print(df_amazon)
     #df_amazon.append(new_data)
     return df_amazon
 

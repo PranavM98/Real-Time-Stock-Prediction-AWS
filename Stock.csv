@@ -1,11 +1,11 @@
-,Company,DateTime,Price,Moving Average
-0,Amazon,Thu Sep 17 19:30:27 2020,2983.54,0
-1,Amazon,Thu Sep 17 19:30:38 2020,2983.54,0
-2,Amazon,Thu Sep 17 19:30:48 2020,2983.54,0
-3,Amazon,Thu Sep 17 19:30:58 2020,2983.54,0
-4,Amazon,Thu Sep 17 19:31:09 2020,2983.54,0
-5,Amazon,Thu Sep 17 19:31:19 2020,2983.54,2983.54
-6,Amazon,Thu Sep 17 19:31:31 2020,2985.56,2983.54
-7,Amazon,Thu Sep 17 19:31:41 2020,2985.56,2983.944
-8,Amazon,Thu Sep 17 19:31:52 2020,2985.56,2984.3479999999995
-9,Amazon,Thu Sep 17 19:32:02 2020,2985.56,2984.7519999999995
+,Dow-Jones,Company,DateTime,Price,Moving Average
+0,0,Amazon,Thu Sep 17 20:50:22 2020,3009.0,0
+1,1.0,Amazon,Thu Sep 17 20:50:25 2020,3009.0,0
+2,1.0,Amazon,Thu Sep 17 20:50:29 2020,3009.0,0
+3,1.0,Amazon,Thu Sep 17 20:50:32 2020,3009.0,0
+4,1.0,Amazon,Thu Sep 17 20:50:36 2020,3009.0,0
+5,1.0,Amazon,Thu Sep 17 20:50:39 2020,3009.0,3009.0
+6,1.0,Amazon,Thu Sep 17 20:50:43 2020,3009.0,3009.0
+7,1.0,Amazon,Thu Sep 17 20:50:47 2020,3009.0,3009.0
+8,1.0,Amazon,Thu Sep 17 20:50:50 2020,3009.0,3009.0
+9,1.0,Amazon,Thu Sep 17 20:50:54 2020,3009.0,3009.0
