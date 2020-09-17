@@ -5,9 +5,9 @@ from bs4 import BeautifulSoup
 import time
 import click
 
-@click.command()
-@click.option('--interval', default=30, help='Interval between scraping')
-@click.option('--iterations', default=None, help='Number of Interations')
+#@click.command()
+#@click.option('--interval', default=30, help='Interval between scraping')
+#@click.option('--iterations', default=None, help='Number of Interations')
 
 
 def extract_price(soup):
@@ -31,8 +31,8 @@ def extract_name(soup):
     return name
     
     
-def url(df_amazon):
-
+def url():
+    df_amazon=pd.DataFrame(columns=["Company","DateTime","Price"])
 
     url='https://markets.businessinsider.com/stocks/amzn-stock'
     html=urlopen(url)
@@ -49,10 +49,10 @@ def url(df_amazon):
     return df_amazon
 
 
-
+'''
 def start(interations,interval):
     click.echo("IN")
-    df_amazon=pd.DataFrame(columns=["Company","DateTime","Price"])
+   
     if iterations is None:
         while(True):
             u=url(df_amazon)
@@ -63,4 +63,4 @@ def start(interations,interval):
             u=url(df_amazon)
             print(u)
             time.sleep(int(interval))
-
+'''
