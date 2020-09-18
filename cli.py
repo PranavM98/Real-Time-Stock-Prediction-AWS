@@ -24,9 +24,11 @@ def start1(iterations,interval):
     for i in range(0,int(iterations)):
         u=scrape.url(df,dj)
         print(u)
+        
         time.sleep(int(interval))
     
     output_file=df.to_csv('Stock.csv')
     
 if __name__ == "__main__":
+    prices=[]
     start1()

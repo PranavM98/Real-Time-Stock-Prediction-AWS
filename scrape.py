@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import time
 import click
 import analysis
+import cli
 #@click.command()
 #@click.option('--interval', default=30, help='Interval between scraping')
 #@click.option('--iterations', default=None, help='Number of Interations')
@@ -24,9 +25,7 @@ def extract_dj():
     return djprice
 
 def extract_price(soup):
-    #Extract Price
-    results = soup.find("div", {"class" : "price-section__values"})
-    span=results.find("span", {"class" : "price-section__current-value"})
+    span=soup.find("div", {"class" : "price-section__values"}).find("span", {"class" : "price-section__current-value"})
     #Price has , in it
     if span.text.find(',')!=-1:
             res=float(span.text.replace(',',''))
@@ -55,7 +54,6 @@ def url(df_amazon,dj):
     name=extract_name(soup)
     dp=extract_dj()
     dj_price=analysis.dowjones(dp,dj)
-    print("DOW JONES", str(dj))
     
     
     if len(df_amazon)<5:
@@ -65,13 +63,10 @@ def url(df_amazon,dj):
         ma=analysis.moving_average(df_amazon)
         new_data=[dj_price,name,str(time.ctime()),price,ma]
     
-    
-    
-    
+
     df_amazon.loc[len(df_amazon)] = new_data
-    #print("DATASET")
-    #print(df_amazon)
-    #df_amazon.append(new_data)
+    
+
     return df_amazon
 
 
