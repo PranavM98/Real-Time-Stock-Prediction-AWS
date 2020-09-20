@@ -2,14 +2,14 @@
 
 def moving_average(df):
     ma=0
-    ma=sum(df.iloc[-5:,3])/5
+    ma=sum(df.loc[-5:,'Price'])/5
     return ma
     
-def dowjones(djprice,dj):
-    dj.append(djprice)
-    if len(dj)==1:
+def price_difference(ind_price,ind):
+    ind.append(ind_price)
+
+    if len(ind)==1:
         return 0
         
     else:
-        return dj[len(dj)-1]-dj[len(dj)-2]
-
+        return ind[len(ind)-1]-ind[len(ind)-2]

@@ -11,18 +11,19 @@ import cli
 #@click.option('--iterations', default=None, help='Number of Interations')
 
 
-def extract_dj():
-    dj_url='https://markets.businessinsider.com/index/dow_jones'
-    dj_html=urlopen(dj_url)
-    dj_soup= BeautifulSoup(dj_html,'lxml')
-    dj_span=dj_soup.find("div", {"class" : "price-section__values"}).find("span", {"class" : "price-section__current-value"})
-    if dj_span.text.find(',')!=-1:
-        djprice=float(dj_span.text.replace(',',''))
-        #djprice=float(djr)
-    else:
-        djprice=float(dj_span.text)
-    
-    return djprice
+def extract_index(index_url):
+    index_price=[]
+    for url in index_url:
+        ihtml=urlopen(url)
+        isoup= BeautifulSoup(ihtml,'lxml')
+        ispan=isoup.find("div", {"class" : "price-section__values"}).find("span", {"class" : "price-section__current-value"})
+        if ispan.text.find(',')!=-1:
+            iprice=float(ispan.text.replace(',',''))
+            #djprice=float(djr)
+        else:
+            iprice=float(ispan.text)
+        index_price.append(iprice)
+    return index_price[0],index_price[1],index_price[2]
 
 def extract_price(soup):
     span=soup.find("div", {"class" : "price-section__values"}).find("span", {"class" : "price-section__current-value"})
@@ -43,25 +44,35 @@ def extract_name(soup):
     return name
     
     
-def url(df_amazon,dj):
+def url(df_amazon,dj,nasdaq,sp):
     
 
     url='https://markets.businessinsider.com/stocks/amzn-stock'
+    index_url=['https://markets.businessinsider.com/index/dow_jones',
+    'https://markets.businessinsider.com/index/s&p_500',
+    'https://markets.businessinsider.com/index/nasdaq_100']
+    
     html=urlopen(url)
     soup= BeautifulSoup(html,'lxml')
     #print(soup)
     price=extract_price(soup)
     name=extract_name(soup)
-    dp=extract_dj()
-    dj_price=analysis.dowjones(dp,dj)
+    #dp=extract_index()
+
+  
+    dp1,sp1,np1=extract_index(index_url)
     
+    dj_price=analysis.price_difference(dp1,dj)
+    sp_price=analysis.price_difference(sp1,sp)
+    nd_price=analysis.price_difference(np1,nasdaq)
     
+
     if len(df_amazon)<5:
-        new_data=[dj_price,name,str(time.ctime()),price,0]
+        new_data=[sp_price,nd_price,dj_price,name,str(time.ctime()),price,0]
     #return new_data
     else:
         ma=analysis.moving_average(df_amazon)
-        new_data=[dj_price,name,str(time.ctime()),price,ma]
+        new_data=[sp_price,nd_price,dj_price,name,str(time.ctime()),price,ma]
     
 
     df_amazon.loc[len(df_amazon)] = new_data

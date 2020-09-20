@@ -16,13 +16,13 @@ import analysis
 
 def start1(iterations,interval):
     #click.echo("HELLO")
-    df=pd.DataFrame(columns=["Dow-Jones","Company","DateTime","Price","Moving Average"])
+    df=pd.DataFrame(columns=["S&P 50","Nasdaq","Dow-Jones","Company","DateTime","Price","Moving Average"])
     dj=[]
-    #nasdaq=[]
-    #sp=[]
+    nasdaq=[]
+    sp=[]
 
     for i in range(0,int(iterations)):
-        u=scrape.url(df,dj)
+        u=scrape.url(df,dj,nasdaq,sp)
         print(u)
         
         time.sleep(int(interval))
@@ -30,5 +30,5 @@ def start1(iterations,interval):
     output_file=df.to_csv('Stock.csv')
     
 if __name__ == "__main__":
-    prices=[]
+
     start1()
