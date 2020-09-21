@@ -4,6 +4,8 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import time
 import click
+from datetime import datetime
+from pytz import timezone
 import analysis
 import cli
 #@click.command()
@@ -44,7 +46,7 @@ def extract_name(soup):
     return name
     
     
-def url(df_amazon,dj,nasdaq,sp):
+def url(df_amazon,dj,nasdaq,sp,p_diff):
     
 
     url='https://markets.businessinsider.com/stocks/amzn-stock'
@@ -58,21 +60,27 @@ def url(df_amazon,dj,nasdaq,sp):
     price=extract_price(soup)
     name=extract_name(soup)
     #dp=extract_index()
-
-  
+ 
+    date_time=analysis.date_time_format(timezone('EST'))
+    
+    
+    
+    
+      
     dp1,sp1,np1=extract_index(index_url)
     
-    dj_price=analysis.price_difference(dp1,dj)
-    sp_price=analysis.price_difference(sp1,sp)
-    nd_price=analysis.price_difference(np1,nasdaq)
+    dj_price=analysis.index_price_difference(dp1,dj)
+    sp_price=analysis.index_price_difference(sp1,sp)
+    nd_price=analysis.index_price_difference(np1,nasdaq)
     
+    price_diff=analysis.calculate_price_diff(price, p_diff)
 
     if len(df_amazon)<5:
-        new_data=[sp_price,nd_price,dj_price,name,str(time.ctime()),price,0]
+        new_data=[sp_price,nd_price,dj_price,name,date_time,price,price_diff,0]
     #return new_data
     else:
         ma=analysis.moving_average(df_amazon)
-        new_data=[sp_price,nd_price,dj_price,name,str(time.ctime()),price,ma]
+        new_data=[sp_price,nd_price,dj_price,name,date_time,price,price_diff,ma]
     
 
     df_amazon.loc[len(df_amazon)] = new_data
